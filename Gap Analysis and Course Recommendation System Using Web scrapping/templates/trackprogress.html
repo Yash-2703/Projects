@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Gap Analysis</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 60px; /* Sidebar width when hidden */
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar:hover {
+            width: 250px; /* Sidebar width when expanded */
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-top: 10px;
+            display: none; /* Hidden by default */
+        }
+        
+        .sidebar:hover h2 {
+            display: block; /* Show heading when expanded */
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 15px 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            width: 100%;
+            padding: 10px;
+        }
+        
+        .sidebar ul li a i {
+            font-size: 20px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .sidebar ul li span {
+            opacity: 0; /* Hide text by default */
+            transition: opacity 0.3s ease;
+        }
+        
+        .sidebar:hover ul li span {
+            opacity: 1; /* Show text when sidebar is hovered */
+        }
+        
+        .sidebar ul li:hover {
+            background-color: #4CAF50;
+        }
+        
+        .content {
+            margin-left: 60px; /* Match hidden sidebar width */
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px; /* To adjust spacing */
+        }
+        
+        .sidebar:hover ~ .content {
+            margin-left: 250px; /* Match expanded sidebar width */
+        }
+        .hero-section {
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 100px 20%;
+            background: linear-gradient(45deg, #4CAF50, #36a2eb);
+            text-align: center;
+            color: white;
+            width: 1459px;
+            box-sizing: border-box;
+        }
+        .sidebar:hover ~ .hero-section {
+            transition: margin-left 0.3s ease; /* Apply transition to margin-left */
+            margin-left: 250px; /* Adjust content when sidebar expands */
+        }
+        .hero-section:hover img {
+            transform: scale(1.1);
+        }
+        
+        .hero-section h1 {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        
+        .hero-section p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section button {
+            padding: 10px 20px;
+            align-items: 200px  ;
+            font-size: 1.2em;
+            background-color: #ff6384;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .hero-section button:hover {
+            background-color: #36a2eb;
+        }
+        .sidebar:hover ~ .features {
+            margin-left: 250px; /* Adjust content when sidebar expands */
+        }
+        .chart-container{
+            margin-left: 100px;
+        }
+        .table1 {
+            width: 90%; /* Table width */
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 100px;
+            border-collapse: collapse; /* Remove space between cells */
+            border-radius: 8px; /* Rounded corners for the table */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the table */
+            overflow: hidden;
+            background-color: #cdcdcd; /* White background for the table */
+            text-align: center;
+        }
+        .sidebar:hover ~ .table1 {
+            margin-left: 250px; /* Adjust content when sidebar expands */
+
+        }
+        .gap {
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 60px;
+            text-align:center;
+
+        }
+        .sidebar:hover ~ .gap {
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 250px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="/home"><i class="fas fa-home"></i> <span>Home</span></a></li>
+            <li><a href="/gap-analysis"><i class="fas fa-chart-line"></i> <span>Gap Analysis</span></a></li>
+            <li><a href="/about"><i class="fas fa-info-circle"></i> <span>About</span></a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </div>
+    
+    <div class="hero-section">
+        <h1>Track your Gap and Progress</h1>
+        <h2>Bridge the Gap: Course & Skills Tracker</h2>
+    </div>
+    <h1 class="gap">Gap Values Graph</h1>
+    
+    <!-- Chart -->
+    <div class="chart-container">
+        <canvas id="coursesChart"></canvas>
+    </div>
+    <script>
+        // Extract data from Flask
+        const courses = {{ recent_courses_and_gaps|tojson }};
+        
+        // Separate course names and gap values
+        const courseNames = courses.map(item => item[0]);
+        const gapValues = courses.map(item => item[1]);
+    
+        // Create Chart.js Bar Chart
+        const ctx = document.getElementById('coursesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: courseNames,
+                datasets: [{
+                    label: 'Fields',
+                    data: gapValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <br><br>
+    <h1 class="gap">Your Course Gap Analysis</h1>
+    <!-- Displaying the data as a table -->
+    <table border="1" class="table1">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Gap Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course, gap in courses_and_gaps %}
+            <tr>
+                <td>{{ course }}</td>
+                <td>{{ gap }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+
+    
+
+</body>
+</html> 

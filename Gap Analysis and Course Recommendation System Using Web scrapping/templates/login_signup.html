@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up</title>
+    <style>
+        .hero-section {
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 100px 20%;
+            background: linear-gradient(45deg, #4CAF50, #36a2eb);
+            text-align: center;
+            color: white;
+            width: 1459px;
+            box-sizing: border-box;
+        }
+        .sidebar:hover ~ .hero-section {
+            transition: margin-left 0.3s ease; /* Apply transition to margin-left */
+            margin-left: 250px; /* Adjust content when sidebar expands */
+        }
+        .hero-section:hover img {
+            transform: scale(1.1);
+        }
+        
+        .hero-section h1 {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        
+        .hero-section p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section button {
+            padding: 10px 20px;
+            align-items: 200px  ;
+            font-size: 1.2em;
+            background-color: #ff6384;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .hero-section button:hover {
+            background-color: #36a2eb;
+        }
+    </style>
+</head>
+<div class="hero-section">
+    <h1>Track your Gap and Progress</h1>
+    <h2>Optimize Your Learning Path</h2>
+</div>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; padding: 20px;">
+
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; margin-bottom: 20px;">Login or Sign Up</h2>
+        
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul style="list-style-type: none; padding: 0; margin-bottom: 20px;">
+                    {% for category, message in messages %}
+                        <li style="padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: {% if category == 'error' %}#f8d7da{% else %}#d4edda{% endif %}; color: {% if category == 'error' %}#721c24{% else %}#155724{% endif %};">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if not show_signup %}
+            <!-- Login Form -->
+            <h3 style="margin-bottom: 10px;">Login</h3>
+            <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <label for="username" style="font-weight: bold;">Username:</label>
+                <input type="text" name="username" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+
+                <label for="password" style="font-weight: bold;">Password:</label>
+                <input type="password" name="password" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+
+                <button type="submit" name="action" value="login" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                    Login
+                </button>
+            </form>
+
+            <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="{{ url_for('login_signup', show_signup='true') }}" style="color: #007bff; text-decoration: none;">Sign Up</a></p>
+        {% else %}
+            <!-- Sign Up Form -->
+            <h3 style="margin-bottom: 10px;">Sign Up</h3>
+            <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <label for="username" style="font-weight: bold;">Username:</label>
+                <input type="text" name="username" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+
+                <label for="email" style="font-weight: bold;">Email:</label>
+                <input type="email" name="email" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+
+                <label for="password" style="font-weight: bold;">Password:</label>
+                <input type="password" name="password" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+
+                <button type="submit" name="action" value="signup" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                    Sign Up
+                </button>
+            </form>
+
+            <p style="text-align: center; margin-top: 20px;">Already have an account? <a href="{{ url_for('login_signup', show_signup='false') }}" style="color: #007bff; text-decoration: none;">Login</a></p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

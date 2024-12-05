@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Gap Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="number"] {
+            width: 50px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .sidebar {
+            width: 60px; /* Sidebar width when hidden */
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .sidebar:hover {
+            width: 250px; /* Sidebar width when expanded */
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 10px;
+            display: none; /* Hidden by default */
+        }
+
+        .sidebar:hover h2 {
+            display: block; /* Show heading when expanded */
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .sidebar ul li a i {
+            font-size: 20px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .sidebar ul li span {
+            opacity: 0; /* Hide text by default */
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover ul li span {
+            opacity: 1; /* Show text when sidebar is hovered */
+        }
+
+        .sidebar ul li:hover {
+            background-color: #4CAF50;
+        }
+        .c {
+            margin-left: 60px; /* Match hidden sidebar width */
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar:hover ~ .content {
+            margin-left: 250px; /* Match expanded sidebar width */
+        }
+        .hero-section {
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 100px 20%;
+            background: linear-gradient(45deg, #4CAF50, #36a2eb);
+            text-align: center;
+            color: white;
+            width: 1459px;
+            box-sizing: border-box;
+        }
+        .sidebar:hover ~ .hero-section {
+            transition: margin-left 0.3s ease; /* Apply transition to margin-left */
+            margin-left: 250px; /* Adjust content when sidebar expands */
+        }
+        .hero-section:hover img {
+            transform: scale(1.1);
+        }
+        
+        .hero-section h1 {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        
+        .hero-section p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section button {
+            padding: 10px 20px;
+            align-items: 200px  ;
+            font-size: 1.2em;
+            background-color: #ff6384;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .hero-section button:hover {
+            background-color: #36a2eb;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Skill Gap Analysis</h1>
+    </div>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="/home"><i class="fas fa-home"></i> <span>Home</span></a></li>
+            <li><a href="/gap-analysis"><i class="fas fa-chart-line"></i> <span>Gap Analysis</span></a></li>
+            <li><a href="/about"><i class="fas fa-info-circle"></i> <span>About</span></a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <form action="/analyze" method="POST">
+            <label for="name">Enter Your Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            {% for skill in skills %}
+            <label for="{{ skill }}">{{ skill }} (Rate out of 10):</label>
+            <input type="number" id="{{ skill }}" name="{{ skill }}" min="0" max="10" step="1"><br>
+            {% endfor %}
+
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+</body>
+</html>

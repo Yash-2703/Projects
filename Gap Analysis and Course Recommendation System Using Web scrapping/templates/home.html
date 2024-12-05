@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Gap Analysis</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 60px; /* Sidebar width when hidden */
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar:hover {
+            width: 250px; /* Sidebar width when expanded */
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-top: 10px;
+            display: none; /* Hidden by default */
+        }
+        
+        .sidebar:hover h2 {
+            display: block; /* Show heading when expanded */
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 15px 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            width: 100%;
+            padding: 10px;
+        }
+        
+        .sidebar ul li a i {
+            font-size: 20px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        
+        .sidebar ul li span {
+            opacity: 0; /* Hide text by default */
+            transition: opacity 0.3s ease;
+        }
+        
+        .sidebar:hover ul li span {
+            opacity: 1; /* Show text when sidebar is hovered */
+        }
+        
+        .sidebar ul li:hover {
+            background-color: #4CAF50;
+        }
+        
+        .content {
+            margin-left: 60px; /* Match hidden sidebar width */
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px; /* To adjust spacing */
+        }
+        
+        .sidebar:hover ~ .content {
+            margin-left: 250px; /* Match expanded sidebar width */
+        }
+        
+        
+        .hero-section {
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 100px 20%;
+            background: linear-gradient(45deg, #4CAF50, #36a2eb);
+            text-align: center;
+            color: white;
+            width: 1459px;
+            box-sizing: border-box;
+        }
+        .sidebar:hover ~ .hero-section {
+            transition: margin-left 0.3s ease; /* Apply transition to margin-left */
+            margin-left: 250px; /* Adjust content when sidebar expands */
+        }
+        .hero-section:hover img {
+            transform: scale(1.1);
+        }
+        
+        .hero-section h1 {
+            font-size: 2.2em;
+            margin: 20px 0;
+        }
+        
+        .hero-section p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section button {
+            padding: 10px 20px;
+            align-items: 200px  ;
+            font-size: 1.2em;
+            background-color: #ff6384;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .hero-section button:hover {
+            background-color: #36a2eb;
+        }
+        .sidebar:hover ~ .features {
+            margin-left: 250px; /* Adjust content when sidebar expands */
+        }
+        .features {
+            display: flex;
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin:"center";
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            width: 100%;
+            padding: 0 5%;
+            box-sizing: border-box;
+        }
+        
+        .feature {
+            width: 30%;
+            text-align: center;
+        }
+        
+        .feature img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        .sidebar:hover ~ .graph-section {
+            margin-left: 100px; /* Adjust content when sidebar expands */
+        }
+        .table1 {
+            width: 90%; /* Table width */
+            transition: margin-left 0.3s ease; /* Transition for when the sidebar is hovered */
+            margin-left: 100px;
+            border-collapse: collapse; /* Remove space between cells */
+            border-radius: 8px; /* Rounded corners for the table */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the table */
+            overflow: hidden;
+            background-color: #cdcdcd; /* White background for the table */
+            text-align: center;
+        }
+        .sidebar:hover ~ .table1 {
+            margin-left: 250px; /* Adjust content when sidebar expands */
+
+        }
+        .graph-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="/home"><i class="fas fa-home"></i> <span>Home</span></a></li>
+            <li><a href="/gap-analysis"><i class="fas fa-chart-line"></i> <span>Gap Analysis</span></a></li>
+            <li><a href="/about"><i class="fas fa-info-circle"></i> <span>About</span></a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </div>
+    
+    <div class="hero-section">
+
+        <h1>Skill Gap Analysis and Course Recommendations</h1>
+        <h2>Welcome, {{ username }}!</h2>
+        <p>Analyze your skills and enhance your career with personalized course recommendations.</p>
+        <button onclick="window.location.href='/gap-analysis'">Start Now</button>
+    </div>
+
+    
+    <h1 align="center" style="font-size: 3em; margin: 20px 0;">Features</h1>
+    <div class="features">
+        <div class="feature">
+            <a href="/gap-analysis">
+                <img src="{{ url_for('static', filename='img/analysis.jpg') }}" alt="Feature 1">
+            </a>
+            <h3>Analyze Your Skills</h3>
+            <p>Track your strengths and areas of improvement.</p>
+        </div>
+        <div class="feature">
+            <img src="{{ url_for('static', filename='img/course.jpg') }}" alt="Feature 2">
+            <h3>Get Course Recommendations</h3>
+            <p>Find courses that help you bridge skill gaps.</p>
+        </div>
+        <div class="feature">
+            <a href="/trackprogress">
+                <img src="{{ url_for('static', filename='img/progress.jpg') }}" alt="Feature 3">
+            </a>
+            <h3>Track Your Progress</h3>
+            <p>Track your strengths and areas of improvement.</p>
+        </div>
+    </div>
+</body>
+</html>

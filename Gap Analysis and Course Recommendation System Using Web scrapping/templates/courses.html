@@ -1,0 +1,14 @@
+<div class="container">
+    <h2>Recommended Courses</h2>
+    <ul>
+        {% for course in courses %}
+            <li class="course">
+                <strong>{{ course['Course Name'] }}</strong><br>
+                Platform: {{ course['Platform'] }}<br>
+                Description: {{ course['Description'] }}<br>
+                <a href="{{ course['URL'] }}" target="_blank">Link to Course</a><br>
+                Skill: {{ course['Skill'] }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
